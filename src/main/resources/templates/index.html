@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>QR Code Generator and Scanner</title>
+</head>
+<body>
+<h1>QR Code Generator and Scanner</h1>
+
+<!-- Display error message if there's any -->
+<div th:if="${error}">
+    <h3 style="color: red;">Error:</h3>
+    <p th:text="${error}"></p>
+</div>
+
+<h2>Generate QR Code</h2>
+<form action="/generate" method="post">
+    Full Name: <input type="text" name="fullName" th:value="${userData.fullName}" required><br>
+    Email: <input type="email" name="email" th:value="${userData.email}" required><br>
+    Unique Code: <input type="text" name="uniqueCode" th:value="${userData.uniqueCode}" required><br>
+    <button type="submit">Generate QR Code</button>
+</form>
+
+<!-- Display the generated QR Code if available -->
+<div th:if="${qrCodeImage}">
+    <h3>Generated QR Code:</h3>
+    <img th:src="'data:image/png;base64,' + ${qrCodeImage}" alt="QR Code">
+</div>
+
+<h2>Scan QR Code</h2>
+<form action="/scan" method="post" enctype="multipart/form-data">
+    Upload QR Code Image: <input type="file" name="file" accept="image/*" required><br>
+    <button type="submit">Scan QR Code</button>
+</form>
+
+<!-- Display decoded QR code text if available -->
+<div th:if="${decodedText}">
+    <h3>Decoded Text:</h3>
+    <pre th:text="${decodedText}"></pre>
+</div>
+</body>
+</html>
