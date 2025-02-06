@@ -46,15 +46,7 @@ public class QRCodeController {
     @PostMapping("/scan")
     public String scanQRCode(@RequestParam("file") MultipartFile file, Model model) {
         try {
-            BufferedImage bufferedImage = ImageIO.read(file.getInputStream());
-
-            LuminanceSource source = new BufferedImageLuminanceSource(bufferedImage);
-            BinaryBitmap bitmap = new BinaryBitmap(new HybridBinarizer(source));
-
-            QRCodeReader qrCodeReader = new QRCodeReader();
-            Result result = qrCodeReader.decode(bitmap);
-
-            String decodedText = result.getText();
+            String decodedText = qrCodeService.scanQRCode(file);
             model.addAttribute("decodedText", decodedText);
 
             model.addAttribute("userData", new UserData());
